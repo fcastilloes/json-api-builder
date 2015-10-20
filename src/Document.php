@@ -203,33 +203,53 @@ class Document
         }
     }
 
-    public function setData(ItemBuilder $item)
+    private function makeResource($object)
     {
-        $this->container->remove('errors');
-        $data = $item->getObject();
-
         // the properties must be type and id
-        if ( count($data) === 2 )
+        if ( count($object) === 2 )
         {
-            $this->container->set('data', $this->manager->getFactory()->make(
+            return $this->manager->getFactory()->make(
                 'Resource\Identifier',
-                [$data, $this->manager]
-            ));
+                [$object, $this->manager]
+            );
         }
         // the 3 properties must be type, id and meta
-        elseif ( count($data) === 3 and property_exists($data, 'meta') )
+        elseif ( count($object) === 3 and property_exists($object, 'meta') )
         {
-            $this->container->set('data', $this->manager->getFactory()->make(
+            return $this->manager->getFactory()->make(
                 'Resource\Identifier',
-                [$data, $this->manager]
-            ));
+                [$object, $this->manager]
+            );
         }
         else
         {
-            $this->container->set('data', $this->manager->getFactory()->make(
+            return $this->manager->getFactory()->make(
                 'Resource\Item',
-                [$data, $this->manager]
-            ));
+                [$object, $this->manager]
+            );
         }
+    }
+
+    public function setData(ItemBuilder $item)
+    {
+        $this->container->remove('errors');
+        $this->container->set('data', $this->makeResource($item->getObject()));
+    }
+
+    public function setDataCollection(array $items)
+    {
+        $this->container->remove('errors');
+
+        $data = array_map(
+            function (ItemBuilder $item) {
+                return $item->getObject();
+            },
+            $items
+        );
+
+        $this->container->set('data', $this->manager->getFactory()->make(
+            'Resource\Collection',
+            [$data, $this->manager]
+        ));
     }
 }
