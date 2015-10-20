@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "2cf552efa38020e2aa0407c12ba906bd",
+    "content-hash": "070280a5b28ff67d7cdea08fc1dbe603",
+    "packages": [
+        {
+            "name": "art4/json-api-client",
+            "version": "0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Art4/json-api-client.git",
+                "reference": "5c135f33ac9f8e87c6aa949ea07235d0315833d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Art4/json-api-client/zipball/5c135f33ac9f8e87c6aa949ea07235d0315833d1",
+                "reference": "5c135f33ac9f8e87c6aa949ea07235d0315833d1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Art4\\JsonApiClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL2"
+            ],
+            "authors": [
+                {
+                    "name": "Artur Weigandt",
+                    "email": "art4@wlabs.de",
+                    "homepage": "http://wlabs.de"
+                }
+            ],
+            "description": "JSON API client",
+            "homepage": "https://github.com/Art4/json-api-client",
+            "keywords": [
+                "JSON-API",
+                "api",
+                "client",
+                "json",
+                "reader",
+                "validator"
+            ],
+            "time": "2015-10-12 12:04:21"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
