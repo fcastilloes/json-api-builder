@@ -14,6 +14,7 @@ use Art4\JsonApiClient\Resource\ResourceInterface;
 use Art4\JsonApiClient\Utils\AccessTrait;
 use FCastillo\JsonApiBuilder\Builder\ErrorBuilder;
 use FCastillo\JsonApiBuilder\Builder\ItemBuilder;
+use FCastillo\JsonApiBuilder\Builder\MetaBuilder;
 use FCastillo\JsonApiBuilder\Utils\DataContainer;
 use Art4\JsonApiClient\Utils\DataContainerInterface;
 use Art4\JsonApiClient\Utils\FactoryManagerInterface;
@@ -251,6 +252,35 @@ class Document
             'Resource\Collection',
             [$data, $this->manager]
         ));
+    }
+
+    /**
+     * Set a new Meta element
+     * @param MetaBuilder $meta
+     */
+    public function setMeta(MetaBuilder $meta)
+    {
+        $this->container->set('meta', $this->manager->getFactory()->make(
+            'Meta',
+            [$meta->getObject(), $this->manager]
+        ));
+    }
+
+    /**
+     * Add a new value to the meta element and creates it if not exists
+     * @param $key
+     * @param $value
+     */
+    public function addMetaData($key, $value)
+    {
+        if ($this->has('meta')) {
+            $this->get('meta')->set($key, $value);
+        } else {
+            $this->container->set('meta', $this->manager->getFactory()->make(
+                'Meta',
+                [(object) [$key => $value], $this->manager]
+            ));
+        }
     }
 
     /**
