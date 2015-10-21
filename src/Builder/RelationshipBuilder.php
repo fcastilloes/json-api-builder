@@ -8,9 +8,7 @@
 
 namespace FCastillo\JsonApiBuilder\Builder;
 
-use stdClass;
-
-class RelationshipBuilder implements BuilderInterface
+class RelationshipBuilder implements RelationshipBuilderInterface
 {
     /**
      * @var ItemBuilderInterface[]
@@ -22,7 +20,10 @@ class RelationshipBuilder implements BuilderInterface
         $this->data[] = $item;
     }
 
-    public function getObject()
+    /**
+     * @return object
+     */
+    public function getRelationshipObject()
     {
         return (object) [
             'data' => array_map(

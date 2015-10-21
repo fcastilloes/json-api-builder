@@ -28,7 +28,7 @@ class ItemBuilder implements ItemBuilderInterface
     private $attributes = [];
 
     /**
-     * @var array
+     * @var RelationshipBuilderInterface[]
      */
     private $relationships = [];
 
@@ -50,7 +50,7 @@ class ItemBuilder implements ItemBuilderInterface
         $this->attributes[$key] = $value;
     }
 
-    public function addRelationship($type, RelationshipBuilder $relationship)
+    public function addRelationship($type, RelationshipBuilderInterface $relationship)
     {
         $this->relationships[$type] = $relationship;
     }
@@ -104,8 +104,8 @@ class ItemBuilder implements ItemBuilderInterface
             $object->relationships = (object) array_combine(
                 $types,
                 array_map(
-                    function (RelationshipBuilder $relationship) {
-                        return $relationship->getObject();
+                    function (RelationshipBuilderInterface $relationship) {
+                        return $relationship->getRelationshipObject();
                     },
                     $this->relationships
                 )
