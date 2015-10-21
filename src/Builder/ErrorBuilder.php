@@ -9,7 +9,7 @@ use stdClass;
  * Date: 20/10/15
  * Time: 15:00
  */
-class ErrorBuilder extends Builder
+class ErrorBuilder implements ErrorBuilderInterface
 {
     /**
      * @var string
@@ -149,4 +149,22 @@ class ErrorBuilder extends Builder
         return $this;
     }
 
+    /**
+     * @return stdClass
+     */
+    public function getErrorObject()
+    {
+        $object = array_filter(
+            get_object_vars($this),
+            function ($value) {
+                return !is_null($value);
+            }
+        );
+
+        if (isset($object['source'])) {
+            $object['source'] = $object['source']->getErrorSourceObject();
+        }
+
+        return (object) $object;
+    }
 }

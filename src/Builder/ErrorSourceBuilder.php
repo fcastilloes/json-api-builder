@@ -8,7 +8,7 @@
 
 namespace FCastillo\JsonApiBuilder\Builder;
 
-class ErrorSourceBuilder extends Builder
+class ErrorSourceBuilder implements ErrorSourceBuilderInterface
 {
     /**
      * @var string
@@ -54,5 +54,18 @@ class ErrorSourceBuilder extends Builder
     {
         $this->parameter = $parameter;
         return $this;
+    }
+
+    /**
+     * @return object
+     */
+    public function getErrorSourceObject()
+    {
+        return (object) array_filter(
+            get_object_vars($this),
+            function ($value) {
+                return !is_null($value);
+            }
+        );
     }
 }

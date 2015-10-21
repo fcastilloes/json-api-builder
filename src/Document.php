@@ -195,11 +195,11 @@ class Document
         $this->container->remove('included');
 
         if ($this->has('errors')) {
-            $this->get('errors')->add($error->getObject());
+            $this->get('errors')->add($error->getErrorObject());
         } else {
             $this->container->set('errors', $this->manager->getFactory()->make(
                 'ErrorCollection',
-                [[$error->getObject()], $this->manager]
+                [[$error->getErrorObject()], $this->manager]
             ));
         }
     }
