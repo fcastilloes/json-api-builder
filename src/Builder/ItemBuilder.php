@@ -92,6 +92,15 @@ class ItemBuilder implements ItemBuilderInterface
     }
 
     /**
+     * @param RelationshipBuilderInterface $relationship
+     * @return object
+     */
+    private function getRelationshipObject(RelationshipBuilderInterface $relationship)
+    {
+        return $relationship->getRelationshipObject();
+    }
+
+    /**
      * @return object
      */
     public function getItemObject()
@@ -100,19 +109,12 @@ class ItemBuilder implements ItemBuilderInterface
         $object->attributes = (object) $this->attributes;
 
         if ($this->relationships) {
-            $types = array_keys($this->relationships);
             $object->relationships = (object) array_combine(
-                $types,
-                array_map(
-                    function (RelationshipBuilderInterface $relationship) {
-                        return $relationship->getRelationshipObject();
-                    },
-                    $this->relationships
-                )
+                array_keys($this->relationships),
+                array_map([$this, 'getRelationshipObject'], $this->relationships)
             );
         }
 
         return $object;
     }
-
 }
