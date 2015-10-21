@@ -28,6 +28,11 @@ class ItemBuilder implements ItemBuilderInterface, BuilderInterface
     private $attributes = [];
 
     /**
+     * @var array
+     */
+    private $relationships = [];
+
+    /**
      * ItemBuilder constructor.
      * @param string $id
      * @param string $type
@@ -43,6 +48,11 @@ class ItemBuilder implements ItemBuilderInterface, BuilderInterface
     public function setAttribute($key, $value)
     {
         $this->attributes[$key] = $value;
+    }
+
+    public function addRelationship($type, RelationshipBuilder $relationship)
+    {
+        $this->relationships[$type] = $relationship;
     }
 
     /**
@@ -75,6 +85,19 @@ class ItemBuilder implements ItemBuilderInterface, BuilderInterface
         $object->id = $this->id;
         $object->type = $this->type;
         $object->attributes = (object) $this->attributes;
+
+        if ($this->relationships) {
+            $types = array_keys($this->relationships);
+            $object->relationships = (object) array_combine(
+                $types,
+                array_map(
+                    function (RelationshipBuilder $relationship) {
+                        return $relationship->getObject();
+                    },
+                    $this->relationships
+                )
+            );
+        }
 
         return $object;
     }
