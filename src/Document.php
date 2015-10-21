@@ -208,49 +208,41 @@ class Document
         }
     }
 
-    private function makeResource($object)
-    {
-        // the properties must be type and id
-        if ( count($object) === 2 )
-        {
-            return $this->manager->getFactory()->make(
-                'Resource\Identifier',
-                [$object, $this->manager]
-            );
-        }
-        // the 3 properties must be type, id and meta
-        elseif ( count($object) === 3 and property_exists($object, 'meta') )
-        {
-            return $this->manager->getFactory()->make(
-                'Resource\Identifier',
-                [$object, $this->manager]
-            );
-        }
-        else
-        {
-            return $this->manager->getFactory()->make(
-                'Resource\Item',
-                [$object, $this->manager]
-            );
-        }
-    }
-
+    /**
+     * Set an item as data value
+     * @param ItemBuilderInterface $item
+     */
     public function setDataItem(ItemBuilderInterface $item)
     {
         $this->container->remove('errors');
-        $this->container->set('data', $this->makeResource($item->getItemObject()));
+        $this->container->set('data', $this->manager->getFactory()->make(
+            'Resource\Item',
+            [$item->getItemObject(), $this->manager]
+        ));
     }
 
+    /**
+     * Set an identifier as data value
+     * @param IdentifierBuilderInterface $identifier
+     */
     public function setDataIdentifier(IdentifierBuilderInterface $identifier)
     {
         $this->container->remove('errors');
-        $this->container->set('data', $this->makeResource($identifier->getIdentifierObject()));
+        $this->container->set('data', $this->manager->getFactory()->make(
+            'Resource\Identifier',
+            [$identifier->getIdentifierObject(), $this->manager]
+        ));
     }
 
+    /**
+     * Set an item collection as data value
+     * @param array $items
+     */
     public function setDataCollection(array $items)
     {
         $this->container->remove('errors');
 
+        // todo: allow identifiers
         $data = array_map(
             function (ItemBuilderInterface $item) {
                 return $item->getItemObject();
