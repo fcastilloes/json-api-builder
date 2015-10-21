@@ -1,7 +1,6 @@
 <?php
 
 namespace FCastillo\JsonApiBuilder\Builder;
-use stdClass;
 
 /**
  * Created by PhpStorm.
@@ -150,19 +149,19 @@ class ErrorBuilder implements ErrorBuilderInterface
     }
 
     /**
-     * @return stdClass
+     * @return object
      */
     public function getErrorObject()
     {
         $object = array_filter(
             get_object_vars($this),
             function ($value) {
-                return !is_null($value);
+                return !is_null($value) && !is_object($value);
             }
         );
 
-        if (isset($object['source'])) {
-            $object['source'] = $object['source']->getErrorSourceObject();
+        if ($this->getSource()) {
+            $object['source'] = $this->getSource()->getErrorSourceObject();
         }
 
         return (object) $object;
