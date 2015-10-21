@@ -2,17 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: fernando
- * Date: 20/10/15
- * Time: 15:51
+ * Date: 21/10/15
+ * Time: 16:56
  */
 
 namespace FCastillo\JsonApiBuilder\Builder;
 
-
-interface ItemBuilderInterface extends IdentifierBuilderInterface
+interface IdentifierBuilderInterface
 {
     /**
      * @return object
      */
-    public function getItemObject();
+    public function getIdentifierObject();
 }

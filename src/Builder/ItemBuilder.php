@@ -10,7 +10,7 @@ namespace FCastillo\JsonApiBuilder\Builder;
 
 use stdClass;
 
-class ItemBuilder implements ItemBuilderInterface, BuilderInterface
+class ItemBuilder implements ItemBuilderInterface
 {
     /**
      * @var string
@@ -79,11 +79,24 @@ class ItemBuilder implements ItemBuilderInterface, BuilderInterface
         return $this->attributes;
     }
 
-    public function getObject()
+    /**
+     * @return object
+     */
+    public function getIdentifierObject()
     {
         $object = new stdClass();
         $object->id = $this->id;
         $object->type = $this->type;
+
+        return $object;
+    }
+
+    /**
+     * @return object
+     */
+    public function getItemObject()
+    {
+        $object = $this->getIdentifierObject();
         $object->attributes = (object) $this->attributes;
 
         if ($this->relationships) {

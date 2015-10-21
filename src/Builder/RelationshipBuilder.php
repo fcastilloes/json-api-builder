@@ -26,8 +26,8 @@ class RelationshipBuilder implements BuilderInterface
     {
         return (object) [
             'data' => array_map(
-                function (ItemBuilder $item) {
-                    return $item->getObject();
+                function (IdentifierBuilderInterface $item) {
+                    return $item->getIdentifierObject();
                 },
                 $this->data
             ),

@@ -13,7 +13,10 @@ use Art4\JsonApiClient\Exception\ValidationException;
 use Art4\JsonApiClient\Resource\ResourceInterface;
 use Art4\JsonApiClient\Utils\AccessTrait;
 use FCastillo\JsonApiBuilder\Builder\ErrorBuilder;
+use FCastillo\JsonApiBuilder\Builder\ErrorBuilderInterface;
+use FCastillo\JsonApiBuilder\Builder\IdentifierBuilderInterface;
 use FCastillo\JsonApiBuilder\Builder\ItemBuilder;
+use FCastillo\JsonApiBuilder\Builder\ItemBuilderInterface;
 use FCastillo\JsonApiBuilder\Builder\MetaBuilder;
 use FCastillo\JsonApiBuilder\Utils\DataContainer;
 use Art4\JsonApiClient\Utils\DataContainerInterface;
@@ -189,7 +192,7 @@ class Document
         return $resource;
     }
 
-    public function addError(ErrorBuilder $error)
+    public function addError(ErrorBuilderInterface $error)
     {
         $this->container->remove('data');
         $this->container->remove('included');
@@ -231,10 +234,16 @@ class Document
         }
     }
 
-    public function setData(ItemBuilder $item)
+    public function setDataItem(ItemBuilderInterface $item)
     {
         $this->container->remove('errors');
-        $this->container->set('data', $this->makeResource($item->getObject()));
+        $this->container->set('data', $this->makeResource($item->getItemObject()));
+    }
+
+    public function setDataIdentifier(IdentifierBuilderInterface $identifier)
+    {
+        $this->container->remove('errors');
+        $this->container->set('data', $this->makeResource($identifier->getIdentifierObject()));
     }
 
     public function setDataCollection(array $items)
@@ -242,8 +251,8 @@ class Document
         $this->container->remove('errors');
 
         $data = array_map(
-            function (ItemBuilder $item) {
-                return $item->getObject();
+            function (ItemBuilderInterface $item) {
+                return $item->getItemObject();
             },
             $items
         );
