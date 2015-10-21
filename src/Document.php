@@ -18,6 +18,7 @@ use FCastillo\JsonApiBuilder\Builder\IdentifierBuilderInterface;
 use FCastillo\JsonApiBuilder\Builder\ItemBuilder;
 use FCastillo\JsonApiBuilder\Builder\ItemBuilderInterface;
 use FCastillo\JsonApiBuilder\Builder\MetaBuilder;
+use FCastillo\JsonApiBuilder\Builder\MetaBuilderInterface;
 use FCastillo\JsonApiBuilder\Utils\DataContainer;
 use Art4\JsonApiClient\Utils\DataContainerInterface;
 use Art4\JsonApiClient\Utils\FactoryManagerInterface;
@@ -267,11 +268,11 @@ class Document
      * Set a new Meta element
      * @param MetaBuilder $meta
      */
-    public function setMeta(MetaBuilder $meta)
+    public function setMeta(MetaBuilderInterface $meta)
     {
         $this->container->set('meta', $this->manager->getFactory()->make(
             'Meta',
-            [$meta->getObject(), $this->manager]
+            [$meta->getMetaObject(), $this->manager]
         ));
     }
 

@@ -8,7 +8,7 @@
 
 namespace FCastillo\JsonApiBuilder\Builder;
 
-class MetaBuilder implements BuilderInterface
+class MetaBuilder implements MetaBuilderInterface
 {
     /**
      * @var array
@@ -30,7 +30,7 @@ class MetaBuilder implements BuilderInterface
     /**
      * @return object
      */
-    public function getObject()
+    public function getMetaObject()
     {
         return (object) $this->data;
     }
