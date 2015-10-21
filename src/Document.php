@@ -252,4 +252,13 @@ class Document
             [$data, $this->manager]
         ));
     }
+
+    /**
+     * Get a string representation of the json api in its actual state
+     * @return string
+     */
+    public function asString()
+    {
+        return json_encode($this->asArray(true));
+    }
 }
